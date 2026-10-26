@@ -4,7 +4,7 @@
 
 **Designed & Built by [UMAR MUKTHAR](https://github.com/UMARMUKTHAR03)**
 
-[![Live Website Demo](https://img.shields.io/badge/🚀%20Live%20Website-Click%20Here%20To%20View-6366f1?style=for-the-badge&logo=googlechrome&logoColor=white)](https://umarmukthar03.github.io/weather-forecast-app/dist/)
+[![Live Website Demo](https://img.shields.io/badge/🚀%20Live%20Website-Launch%20SkyCast-6366f1?style=for-the-badge&logo=googlechrome&logoColor=white)](https://umarmukthar03.github.io/weather-forecast-app/)
 [![GitHub Profile](https://img.shields.io/badge/Creator-UMAR%20MUKTHAR-10b981?style=for-the-badge&logo=github&logoColor=white)](https://github.com/UMARMUKTHAR03)
 [![License: MIT](https://img.shields.io/badge/License-MIT-38bdf8?style=for-the-badge)](LICENSE)
 
@@ -19,7 +19,7 @@
 
 ## 🌟 Live Demo & Web App
 
-- 🌐 **Live Website Link:** [https://umarmukthar03.github.io/weather-forecast-app/dist/](https://umarmukthar03.github.io/weather-forecast-app/dist/)
+- 🌐 **Live Website Link:** [https://umarmukthar03.github.io/weather-forecast-app/](https://umarmukthar03.github.io/weather-forecast-app/)
 - 👨‍💻 **Creator / Maintainer:** [Umar Mukthar (@UMARMUKTHAR03)](https://github.com/UMARMUKTHAR03)
 - 📦 **Repository:** [UMARMUKTHAR03/weather-forecast-app](https://github.com/UMARMUKTHAR03/weather-forecast-app)
 
