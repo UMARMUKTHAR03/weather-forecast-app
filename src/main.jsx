@@ -9,26 +9,50 @@ import "./index.css";
 const Home = lazy(() => import("./routes/Home"));
 const Forecast = lazy(() => import("./routes/Forecast"));
 
+const appRoutes = [
+  { index: true, element: <Home /> },
+  {
+    path: "forecast",
+    element: <Forecast />,
+  },
+];
+
 const router = createBrowserRouter([
   {
-    path: "/weather-app-vite",
+    path: "/",
     element: (
-      <Suspense fallback={<div className="hidden">Loading...</div>}>
+      <Suspense fallback={<div className="flex h-screen items-center justify-center font-medium text-slate-500">Loading SkyCast...</div>}>
         <App />
       </Suspense>
     ),
-
-    children: [
-      { index: true, element: <Home /> },
-      {
-        path: "forecast",
-        element: <Forecast />,
-      },
-    ],
+    children: appRoutes,
+  },
+  {
+    path: "/weather-forecast-app",
+    element: (
+      <Suspense fallback={<div className="flex h-screen items-center justify-center font-medium text-slate-500">Loading SkyCast...</div>}>
+        <App />
+      </Suspense>
+    ),
+    children: appRoutes,
+  },
+  {
+    path: "/weather-app-vite",
+    element: (
+      <Suspense fallback={<div className="flex h-screen items-center justify-center font-medium text-slate-500">Loading SkyCast...</div>}>
+        <App />
+      </Suspense>
+    ),
+    children: appRoutes,
   },
   {
     path: "*",
-    element: <div>Not Found</div>,
+    element: (
+      <Suspense fallback={<div className="flex h-screen items-center justify-center font-medium text-slate-500">Loading SkyCast...</div>}>
+        <App />
+      </Suspense>
+    ),
+    children: appRoutes,
   },
 ]);
 

@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SkyCast • Real-Time Weather Intelligence | by Umar Mukthar</title>
+    <meta name="description" content="A modern, high-precision weather forecasting application with real-time metrics, interactive maps, and precipitation analysis by Umar Mukthar." />
+    <meta name="author" content="UMAR MUKTHAR" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
       if (
         localStorage.theme === "dark" ||
@@ -23,17 +31,13 @@
       integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
       crossorigin=""
     ></script>
-    <script src="http://unpkg.com/leaflet@latest/dist/leaflet.js"></script>
     <script
       defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpBXE7229fuXG0D5UkaOWMoGgFhwU2QgA&amp;libraries=places&amp;callback=Function.prototype"
     ></script>
-    <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
   </head>
-  <body class="dark:bg-black dark:text-white">
+  <body class="bg-slate-50 text-slate-800 antialiased selection:bg-indigo-500 selection:text-white dark:bg-[#0b0f19] dark:text-slate-100 min-h-screen">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

@@ -2,37 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "Kardust-Bold";
-  font-weight: 700;
-  src: url("/fonts/Kardust-Bold.woff2") format("woff"),
-    url("/fonts/Kardust-Bold.woff2") format("woff2");
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
 }
 
-/* Special styling for WebKit/Blink */
+/* Custom Smooth Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.4);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.6);
+}
+
+/* Range input styling */
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   border: 2px solid transparent;
-  height: 0.7rem;
-  width: 0.7rem;
+  height: 0.85rem;
+  width: 0.85rem;
   border-radius: 100%;
-  background: #ffffff;
+  background: #6366f1;
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
 }
 
-/* All the same stuff for Firefox */
 input[type="range"]::-moz-range-thumb {
   border: 2px solid transparent;
-  height: 7px;
-  width: 7px;
+  height: 0.85rem;
+  width: 0.85rem;
   border-radius: 100%;
-  background: #ffffff;
+  background: #6366f1;
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
 }
 
-/* All the same stuff for IE */
 input[type="range"]::-ms-thumb {
   border: 1px solid transparent;
   height: 16px;
   width: 16px;
   border-radius: 100%;
-  background: #ffffff;
+  background: #6366f1;
 }

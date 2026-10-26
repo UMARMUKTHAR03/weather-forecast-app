@@ -1,7 +1,10 @@
 {
-  "name": "weather-app-vite",
+  "name": "skycast-weather-app",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Real-time weather intelligence and forecast dashboard built by Umar Mukthar",
+  "author": "UMAR MUKTHAR (https://github.com/UMARMUKTHAR03)",
+  "homepage": "https://github.com/UMARMUKTHAR03/weather-forecast-app",
   "type": "module",
   "scripts": {
     "dev": "vite",
