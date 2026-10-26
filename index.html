@@ -4,11 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SkyCast • Real-Time Weather Intelligence | by Umar Mukthar</title>
-    <meta name="description" content="A modern, high-precision weather forecasting application with real-time metrics, interactive maps, and precipitation analysis by Umar Mukthar." />
+    <meta name="description" content="A modern real-time weather analytics application built by Umar Mukthar." />
     <meta name="author" content="UMAR MUKTHAR" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
       if (
         localStorage.theme === "dark" ||
@@ -23,22 +20,17 @@
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
-      integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
       crossorigin=""
     />
     <script
       src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
-      integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
       crossorigin=""
     ></script>
-    <script
-      defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpBXE7229fuXG0D5UkaOWMoGgFhwU2QgA&amp;libraries=places&amp;callback=Function.prototype"
-    ></script>
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="./dist/vite.svg" />
+    <script type="module" crossorigin src="./dist/assets/index-c2546d62.js"></script>
+    <link rel="stylesheet" href="./dist/assets/index-44a299a9.css">
   </head>
-  <body class="bg-slate-50 text-slate-800 antialiased selection:bg-indigo-500 selection:text-white dark:bg-[#0b0f19] dark:text-slate-100 min-h-screen">
+  <body class="dark:bg-slate-950 dark:text-white bg-slate-50 text-slate-900">
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
