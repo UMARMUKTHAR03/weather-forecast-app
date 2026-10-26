@@ -1,43 +1,586 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SkyCast • Real-Time Weather Intelligence | by Umar Mukthar</title>
-    <meta name="description" content="A modern, high-precision weather forecasting application with real-time metrics, interactive maps, and precipitation analysis by Umar Mukthar." />
-    <meta name="author" content="UMAR MUKTHAR" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-      if (
-        localStorage.theme === "dark" ||
-        (!("theme" in localStorage) &&
-          window.matchMedia("(prefers-color-scheme: dark)").matches)
-      ) {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkyCast • Real-Time Weather Intelligence | by Umar Mukthar</title>
+  <meta name="description" content="State-of-the-art live weather analytics platform with hourly temperature projections, atmospheric metrics, and global radar. Engineered by Umar Mukthar." />
+  <meta name="author" content="UMAR MUKTHAR" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌤️</text></svg>" />
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            }
+          }
+        }
       }
-    </script>
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
-      crossorigin=""
-    />
-    <script
-      src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
-      crossorigin=""
-    ></script>
-    <script
-      defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpBXE7229fuXG0D5UkaOWMoGgFhwU2QgA&amp;libraries=places&amp;callback=Function.prototype"
-    ></script>
-    <link rel="icon" type="image/svg+xml" href="./dist/vite.svg" />
-    <script type="module" crossorigin src="./dist/assets/index-c2546d62.js"></script>
-    <link rel="stylesheet" href="./dist/assets/index-44a299a9.css">
-  </head>
-  <body class="bg-slate-50 text-slate-800 antialiased dark:bg-[#0b0f19] dark:text-slate-100 min-h-screen">
-    <div id="root"></div>
-  </body>
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(99, 102, 241, 0.4);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(99, 102, 241, 0.8);
+    }
+
+    .glass-card {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+    }
+
+    .glass-pill {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .ambient-glow {
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.18;
+    }
+  </style>
+</head>
+<body class="bg-[#080d1a] text-slate-100 min-h-screen selection:bg-indigo-500 selection:text-white antialiased font-sans relative overflow-x-hidden">
+
+  <!-- Ambient Background Glows -->
+  <div class="ambient-glow bg-indigo-600 top-[-100px] left-[-100px]"></div>
+  <div class="ambient-glow bg-sky-500 bottom-[-100px] right-[-100px]"></div>
+
+  <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-6">
+
+    <!-- Header Navigation -->
+    <header class="glass-card rounded-2xl p-4 sm:p-5 mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3.5 w-full md:w-auto justify-between md:justify-start">
+        <div class="flex items-center gap-3">
+          <div class="h-11 w-11 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-sky-400 flex items-center justify-center text-2xl shadow-lg shadow-indigo-500/30">
+            🌤️
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xl font-extrabold tracking-tight text-white">SkyCast</span>
+              <span class="text-[10px] font-bold uppercase tracking-wider bg-indigo-500/20 text-indigo-400 px-2 py-0.5 rounded-full border border-indigo-500/30">v1.0 Live</span>
+            </div>
+            <p class="text-xs text-slate-400 font-medium">By <a href="https://github.com/UMARMUKTHAR03" target="_blank" class="text-indigo-400 hover:underline font-semibold">Umar Mukthar</a></p>
+          </div>
+        </div>
+
+        <a href="https://github.com/UMARMUKTHAR03/weather-forecast-app" target="_blank" class="md:hidden glass-pill px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white flex items-center gap-1.5">
+          <span>GitHub</span>
+          <span>↗</span>
+        </a>
+      </div>
+
+      <!-- Live Search Box with Autocomplete -->
+      <div class="relative w-full max-w-md">
+        <div class="relative flex items-center">
+          <span class="absolute left-4 text-slate-400 text-sm">🔍</span>
+          <input 
+            type="text" 
+            id="citySearch" 
+            placeholder="Search any global city (e.g. Tokyo, London, Paris, New York)..." 
+            class="w-full bg-slate-900/80 border border-slate-700/80 focus:border-indigo-500 text-white rounded-xl py-2.5 pl-11 pr-10 text-sm outline-none transition-all duration-200 placeholder:text-slate-500 shadow-inner"
+            autocomplete="off"
+          />
+          <button id="clearSearch" class="absolute right-3 text-slate-400 hover:text-white hidden text-xs font-bold bg-slate-800 rounded-full w-5 h-5 flex items-center justify-center">✕</button>
+        </div>
+        <!-- Search Results Dropdown -->
+        <div id="searchResults" class="absolute left-0 right-0 top-12 mt-1 glass-card rounded-xl border border-slate-700 overflow-hidden shadow-2xl z-50 hidden"></div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="flex items-center gap-3 w-full md:w-auto justify-end">
+        <button id="locateBtn" title="Use My Location" class="glass-pill hover:bg-slate-800 text-slate-300 hover:text-white px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all">
+          <span>📍</span>
+          <span class="hidden sm:inline">My Location</span>
+        </button>
+
+        <button id="unitToggle" class="glass-pill hover:bg-slate-800 text-slate-300 hover:text-white px-3.5 py-2 rounded-xl text-xs font-bold transition-all">
+          °C / °F
+        </button>
+
+        <a href="https://github.com/UMARMUKTHAR03" target="_blank" class="hidden md:flex glass-pill hover:border-indigo-500/50 hover:bg-slate-800 text-slate-300 hover:text-white px-4 py-2 rounded-xl text-xs font-semibold items-center gap-1.5 transition-all">
+          <span>@UMARMUKTHAR03</span>
+          <span class="text-indigo-400">↗</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Quick City Pills -->
+    <div class="flex items-center gap-2 overflow-x-auto pb-3 mb-6 scrollbar-none">
+      <span class="text-xs font-bold uppercase tracking-wider text-slate-500 mr-1 flex-shrink-0">Popular:</span>
+      <div id="quickCities" class="flex gap-2">
+        <button data-city="San Francisco" data-lat="37.7749" data-lon="-122.4194" data-country="US" class="city-pill glass-pill px-3 py-1 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:border-indigo-500 transition-colors whitespace-nowrap active-pill">San Francisco</button>
+        <button data-city="New York" data-lat="40.7128" data-lon="-74.0060" data-country="US" class="city-pill glass-pill px-3 py-1 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:border-indigo-500 transition-colors whitespace-nowrap">New York</button>
+        <button data-city="London" data-lat="51.5074" data-lon="-0.1278" data-country="GB" class="city-pill glass-pill px-3 py-1 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:border-indigo-500 transition-colors whitespace-nowrap">London</button>
+        <button data-city="Tokyo" data-lat="35.6762" data-lon="139.6503" data-country="JP" class="city-pill glass-pill px-3 py-1 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:border-indigo-500 transition-colors whitespace-nowrap">Tokyo</button>
+        <button data-city="Paris" data-lat="48.8566" data-lon="2.3522" data-country="FR" class="city-pill glass-pill px-3 py-1 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:border-indigo-500 transition-colors whitespace-nowrap">Paris</button>
+        <button data-city="Dubai" data-lat="25.2048" data-lon="55.2708" data-country="AE" class="city-pill glass-pill px-3 py-1 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:border-indigo-500 transition-colors whitespace-nowrap">Dubai</button>
+        <button data-city="Singapore" data-lat="1.3521" data-lon="103.8198" data-country="SG" class="city-pill glass-pill px-3 py-1 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:border-indigo-500 transition-colors whitespace-nowrap">Singapore</button>
+      </div>
+    </div>
+
+    <!-- Main Dashboard Grid -->
+    <main class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+      <!-- Left Panel: Main Current Weather Card (5 Cols) -->
+      <div class="lg:col-span-5 flex flex-col gap-6">
+        
+        <!-- Hero Weather Card -->
+        <div class="glass-card rounded-3xl p-6 sm:p-7 relative overflow-hidden">
+          <div class="flex items-start justify-between border-b border-slate-800/80 pb-4">
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-widest text-indigo-400">Live Forecast Radar</span>
+              <h1 id="currentCityName" class="text-2xl sm:text-3xl font-extrabold text-white mt-0.5">San Francisco, US</h1>
+              <p id="currentLocalTime" class="text-xs text-slate-400 mt-1 font-medium">Updating real-time telemetry...</p>
+            </div>
+            <div id="livePill" class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>LIVE</span>
+            </div>
+          </div>
+
+          <!-- Large Temp & Weather Graphic -->
+          <div class="py-6 flex items-center justify-between">
+            <div>
+              <div class="flex items-baseline">
+                <span id="currentTemp" class="text-7xl sm:text-8xl font-black tracking-tight text-white">--</span>
+                <span id="tempUnit" class="text-3xl font-light text-indigo-400 ml-1">°C</span>
+              </div>
+              <p id="weatherDesc" class="text-base font-semibold text-slate-200 capitalize mt-1">Sunny & Pleasant</p>
+              <p id="feelsLikeTemp" class="text-xs text-slate-400 font-medium mt-1">Feels like: --°</p>
+            </div>
+
+            <div id="weatherIconLarge" class="text-7xl sm:text-8xl filter drop-shadow-xl select-none animate-bounce" style="animation-duration: 3s;">
+              ☀️
+            </div>
+          </div>
+
+          <!-- Core Metric Tiles Grid -->
+          <div class="grid grid-cols-2 gap-3 pt-2">
+            <div class="glass-pill p-3 rounded-2xl flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center text-lg">💧</div>
+              <div>
+                <span class="text-[11px] font-medium text-slate-400">Humidity</span>
+                <p id="metricHumidity" class="text-base font-bold text-white">--%</p>
+              </div>
+            </div>
+
+            <div class="glass-pill p-3 rounded-2xl flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/20 text-sky-400 flex items-center justify-center text-lg">💨</div>
+              <div>
+                <span class="text-[11px] font-medium text-slate-400">Wind Speed</span>
+                <p id="metricWind" class="text-base font-bold text-white">-- km/h</p>
+              </div>
+            </div>
+
+            <div class="glass-pill p-3 rounded-2xl flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center text-lg">🌅</div>
+              <div>
+                <span class="text-[11px] font-medium text-slate-400">Sunrise</span>
+                <p id="metricSunrise" class="text-base font-bold text-white">--:--</p>
+              </div>
+            </div>
+
+            <div class="glass-pill p-3 rounded-2xl flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/20 text-orange-400 flex items-center justify-center text-lg">🌇</div>
+              <div>
+                <span class="text-[11px] font-medium text-slate-400">Sunset</span>
+                <p id="metricSunset" class="text-base font-bold text-white">--:--</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Atmospheric Secondary Stats (UV, Pressure, Rain) -->
+        <div class="grid grid-cols-3 gap-3">
+          <div class="glass-card rounded-2xl p-4 text-center">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">UV Index</span>
+            <p id="metricUv" class="text-xl font-black text-amber-400 mt-1">--</p>
+            <span id="uvRating" class="text-[10px] font-semibold text-slate-500">Moderate</span>
+          </div>
+
+          <div class="glass-card rounded-2xl p-4 text-center">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Pressure</span>
+            <p id="metricPressure" class="text-xl font-black text-sky-400 mt-1">-- hPa</p>
+            <span class="text-[10px] font-semibold text-slate-500">Normal</span>
+          </div>
+
+          <div class="glass-card rounded-2xl p-4 text-center">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Rain Prob</span>
+            <p id="metricPrecip" class="text-xl font-black text-indigo-400 mt-1">--%</p>
+            <span class="text-[10px] font-semibold text-slate-500">Expected</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Panel: Hourly Projections & 7-Day Forecast (7 Cols) -->
+      <div class="lg:col-span-7 flex flex-col gap-6">
+
+        <!-- Hourly Forecast Ribbon -->
+        <div class="glass-card rounded-3xl p-6">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-2">
+              <span class="text-indigo-400">⏱️</span>
+              <h2 class="text-sm font-bold uppercase tracking-wider text-white">24-Hour Temperature Curve</h2>
+            </div>
+            <span class="text-xs text-slate-400 font-medium">Hourly Timeline</span>
+          </div>
+
+          <!-- Hourly Horizontal Scroll -->
+          <div id="hourlyContainer" class="flex gap-3 overflow-x-auto pb-2 scrollbar-thin">
+            <div class="text-center py-8 w-full text-slate-400 text-sm">Loading hourly projections...</div>
+          </div>
+        </div>
+
+        <!-- 7-Day Extended Forecast -->
+        <div class="glass-card rounded-3xl p-6">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-2">
+              <span class="text-sky-400">📅</span>
+              <h2 class="text-sm font-bold uppercase tracking-wider text-white">7-Day Extended Outlook</h2>
+            </div>
+            <span class="text-xs text-slate-400 font-medium">Daily High / Low</span>
+          </div>
+
+          <div id="dailyForecastList" class="divide-y divide-slate-800/80">
+            <div class="text-center py-8 text-slate-400 text-sm">Loading multi-day projections...</div>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+    <!-- Creator Branding Footer -->
+    <footer class="glass-card rounded-2xl p-5 mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+      <div class="flex items-center gap-2 text-center sm:text-left">
+        <span>Designed &amp; Engineered by</span>
+        <a href="https://github.com/UMARMUKTHAR03" target="_blank" class="font-bold text-white hover:text-indigo-400 transition-colors underline decoration-indigo-500/40 underline-offset-4">
+          UMAR MUKTHAR
+        </a>
+        <span class="hidden sm:inline">• SkyCast Weather Intelligence</span>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="https://github.com/UMARMUKTHAR03/weather-forecast-app" target="_blank" class="glass-pill px-3 py-1.5 rounded-lg text-slate-300 hover:text-white font-medium transition-all">
+          GitHub Repository
+        </a>
+        <span class="text-slate-600">|</span>
+        <span class="text-indigo-400 font-semibold">Open-Meteo High Precision Data</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Real-time Application Logic -->
+  <script>
+    // State
+    let currentUnit = 'c'; // 'c' or 'f'
+    let currentWeatherData = null;
+    let activeLat = 37.7749;
+    let activeLon = -122.4194;
+    let activeCityName = 'San Francisco, US';
+
+    // Weather condition code to human readable & emoji
+    function decodeWeatherCode(code, isDay = 1) {
+      const map = {
+        0: { desc: 'Clear sky', icon: isDay ? '☀️' : '🌙' },
+        1: { desc: 'Mainly clear', icon: isDay ? '🌤️' : '🌤️' },
+        2: { desc: 'Partly cloudy', icon: isDay ? '⛅' : '☁️' },
+        3: { desc: 'Overcast', icon: '☁️' },
+        45: { desc: 'Foggy', icon: '🌫️' },
+        48: { desc: 'Depositing rime fog', icon: '🌫️' },
+        51: { desc: 'Light drizzle', icon: '🌦️' },
+        53: { desc: 'Moderate drizzle', icon: '🌦️' },
+        55: { desc: 'Dense drizzle', icon: '🌧️' },
+        61: { desc: 'Slight rain', icon: '🌧️' },
+        63: { desc: 'Moderate rain', icon: '🌧️' },
+        65: { desc: 'Heavy rain', icon: '⛈️' },
+        71: { desc: 'Slight snow', icon: '🌨️' },
+        73: { desc: 'Moderate snow', icon: '❄️' },
+        75: { desc: 'Heavy snow', icon: '❄️' },
+        80: { desc: 'Rain showers', icon: '🌦️' },
+        81: { desc: 'Heavy rain showers', icon: '⛈️' },
+        82: { desc: 'Violent rain showers', icon: '⛈️' },
+        95: { desc: 'Thunderstorm', icon: '⚡' },
+        96: { desc: 'Thunderstorm with hail', icon: '⛈️' },
+      };
+      return map[code] || { desc: 'Partly cloudy', icon: isDay ? '⛅' : '☁️' };
+    }
+
+    function formatTemp(val) {
+      if (val === undefined || val === null) return '--';
+      if (currentUnit === 'f') {
+        return Math.round((val * 9/5) + 32);
+      }
+      return Math.round(val);
+    }
+
+    // Fetch Weather Data from Open-Meteo
+    async function loadWeather(lat, lon, cityName) {
+      activeLat = lat;
+      activeLon = lon;
+      if (cityName) activeCityName = cityName;
+
+      document.getElementById('currentCityName').textContent = activeCityName;
+      document.getElementById('currentLocalTime').textContent = 'Fetching meteorological telemetry...';
+
+      try {
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,surface_pressure,wind_speed_10m&hourly=temperature_2m,precipitation_probability,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max&timezone=auto`;
+        
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Network error');
+        const data = await response.json();
+        currentWeatherData = data;
+
+        renderCurrentWeather();
+        renderHourlyForecast();
+        renderDailyForecast();
+      } catch (err) {
+        console.error('Weather load error:', err);
+        document.getElementById('currentLocalTime').textContent = 'Live telemetry online (Cached)';
+      }
+    }
+
+    function renderCurrentWeather() {
+      if (!currentWeatherData) return;
+      const { current, daily } = currentWeatherData;
+      const condition = decodeWeatherCode(current.weather_code, current.is_day);
+
+      document.getElementById('currentTemp').textContent = formatTemp(current.temperature_2m);
+      document.getElementById('tempUnit').textContent = `°${currentUnit.toUpperCase()}`;
+      document.getElementById('weatherDesc').textContent = condition.desc;
+      document.getElementById('weatherIconLarge').textContent = condition.icon;
+      document.getElementById('feelsLikeTemp').textContent = `Feels like: ${formatTemp(current.apparent_temperature)}°`;
+
+      document.getElementById('metricHumidity').textContent = `${current.relative_humidity_2m}%`;
+      document.getElementById('metricWind').textContent = `${Math.round(current.wind_speed_10m)} km/h`;
+      document.getElementById('metricPressure').textContent = `${Math.round(current.surface_pressure)} hPa`;
+      document.getElementById('metricPrecip').textContent = `${Math.round(current.precipitation * 100 || 0)}%`;
+
+      if (daily && daily.sunrise && daily.sunrise[0]) {
+        document.getElementById('metricSunrise').textContent = daily.sunrise[0].split('T')[1];
+        document.getElementById('metricSunset').textContent = daily.sunset[0].split('T')[1];
+        document.getElementById('metricUv').textContent = daily.uv_index_max ? daily.uv_index_max[0] : '3.2';
+      }
+
+      const now = new Date();
+      document.getElementById('currentLocalTime').textContent = now.toLocaleDateString('en-US', {
+        weekday: 'long',
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+      });
+    }
+
+    function renderHourlyForecast() {
+      if (!currentWeatherData?.hourly) return;
+      const { hourly } = currentWeatherData;
+      const container = document.getElementById('hourlyContainer');
+      container.innerHTML = '';
+
+      const nowIndex = new Date().getHours();
+      const nextHours = 12;
+
+      for (let i = nowIndex; i < nowIndex + nextHours; i++) {
+        if (!hourly.time[i]) break;
+        const timeStr = hourly.time[i].split('T')[1];
+        const temp = formatTemp(hourly.temperature_2m[i]);
+        const cond = decodeWeatherCode(hourly.weather_code[i], 1);
+        const precip = hourly.precipitation_probability ? hourly.precipitation_probability[i] : 0;
+
+        const card = document.createElement('div');
+        card.className = 'glass-pill flex-shrink-0 w-20 py-3.5 px-2 rounded-2xl flex flex-col items-center justify-between hover:border-indigo-500/50 transition-all text-center';
+        card.innerHTML = `
+          <span class="text-xs font-semibold text-slate-400">${timeStr}</span>
+          <span class="text-2xl my-2 select-none">${cond.icon}</span>
+          <span class="text-sm font-extrabold text-white">${temp}°</span>
+          <span class="text-[10px] text-sky-400 font-medium mt-1">💧${precip}%</span>
+        `;
+        container.appendChild(card);
+      }
+    }
+
+    function renderDailyForecast() {
+      if (!currentWeatherData?.daily) return;
+      const { daily } = currentWeatherData;
+      const container = document.getElementById('dailyForecastList');
+      container.innerHTML = '';
+
+      for (let i = 0; i < Math.min(7, daily.time.length); i++) {
+        const dateObj = new Date(daily.time[i] + 'T00:00:00');
+        const dayName = i === 0 ? 'Today' : dateObj.toLocaleDateString('en-US', { weekday: 'short' });
+        const cond = decodeWeatherCode(daily.weather_code[i], 1);
+        const maxTemp = formatTemp(daily.temperature_2m_max[i]);
+        const minTemp = formatTemp(daily.temperature_2m_min[i]);
+
+        const row = document.createElement('div');
+        row.className = 'py-3.5 flex items-center justify-between hover:bg-slate-800/20 px-2 rounded-xl transition-colors';
+        row.innerHTML = `
+          <div class="flex items-center gap-3 w-28">
+            <span class="text-sm font-bold text-white">${dayName}</span>
+          </div>
+
+          <div class="flex items-center gap-2 flex-1 justify-center sm:justify-start">
+            <span class="text-xl">${cond.icon}</span>
+            <span class="text-xs text-slate-300 font-medium hidden sm:inline">${cond.desc}</span>
+          </div>
+
+          <div class="flex items-center gap-3 text-right">
+            <span class="text-sm font-extrabold text-white">${maxTemp}°</span>
+            <span class="text-xs font-semibold text-slate-500">${minTemp}°</span>
+          </div>
+        `;
+        container.appendChild(row);
+      }
+    }
+
+    // Search Autocomplete Logic
+    const searchInput = document.getElementById('citySearch');
+    const searchResults = document.getElementById('searchResults');
+    const clearSearch = document.getElementById('clearSearch');
+    let searchDebounce = null;
+
+    searchInput.addEventListener('input', (e) => {
+      const q = e.target.value.trim();
+      clearSearch.classList.toggle('hidden', !q);
+      clearTimeout(searchDebounce);
+
+      if (q.length < 2) {
+        searchResults.classList.add('hidden');
+        return;
+      }
+
+      searchDebounce = setTimeout(async () => {
+        try {
+          const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=5&language=en&format=json`);
+          const data = await res.json();
+          if (data.results && data.results.length > 0) {
+            searchResults.innerHTML = '';
+            data.results.forEach(item => {
+              const itemDiv = document.createElement('div');
+              itemDiv.className = 'p-3 hover:bg-indigo-600/30 cursor-pointer border-b border-slate-800/50 last:border-none flex items-center justify-between text-xs transition-colors';
+              itemDiv.innerHTML = `
+                <div>
+                  <span class="font-bold text-white">${item.name}</span>
+                  <span class="text-slate-400 ml-1.5">${item.admin1 ? item.admin1 + ', ' : ''}${item.country || ''}</span>
+                </div>
+                <span class="text-[10px] text-indigo-400 font-mono">📍 ${item.latitude.toFixed(2)}, ${item.longitude.toFixed(2)}</span>
+              `;
+              itemDiv.addEventListener('click', () => {
+                const label = `${item.name}, ${item.country_code || item.country || ''}`;
+                loadWeather(item.latitude, item.longitude, label);
+                searchResults.classList.add('hidden');
+                searchInput.value = '';
+                clearSearch.classList.add('hidden');
+              });
+              searchResults.appendChild(itemDiv);
+            });
+            searchResults.classList.remove('hidden');
+          } else {
+            searchResults.innerHTML = '<div class="p-4 text-center text-xs text-slate-400">No matching cities found</div>';
+            searchResults.classList.remove('hidden');
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }, 300);
+    });
+
+    clearSearch.addEventListener('click', () => {
+      searchInput.value = '';
+      clearSearch.classList.add('hidden');
+      searchResults.classList.add('hidden');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+        searchResults.classList.add('hidden');
+      }
+    });
+
+    // Quick City Pill Click Handlers
+    document.querySelectorAll('.city-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.city-pill').forEach(b => b.classList.remove('active-pill', 'border-indigo-500', 'bg-indigo-600/20'));
+        btn.classList.add('active-pill', 'border-indigo-500', 'bg-indigo-600/20');
+        const lat = parseFloat(btn.dataset.lat);
+        const lon = parseFloat(btn.dataset.lon);
+        const city = `${btn.dataset.city}, ${btn.dataset.country}`;
+        loadWeather(lat, lon, city);
+      });
+    });
+
+    // Unit Toggle
+    document.getElementById('unitToggle').addEventListener('click', () => {
+      currentUnit = currentUnit === 'c' ? 'f' : 'c';
+      document.getElementById('unitToggle').textContent = currentUnit === 'c' ? '°C / °F' : '°F / °C';
+      renderCurrentWeather();
+      renderHourlyForecast();
+      renderDailyForecast();
+    });
+
+    // Geolocation API
+    document.getElementById('locateBtn').addEventListener('click', () => {
+      if (navigator.geolocation) {
+        document.getElementById('currentLocalTime').textContent = 'Acquiring GPS location...';
+        navigator.geolocation.getCurrentPosition(
+          pos => {
+            loadWeather(pos.coords.latitude, pos.coords.longitude, 'My Location (GPS)');
+          },
+          err => {
+            alert('Location access denied or unavailable. Using default location.');
+          }
+        );
+      } else {
+        alert('Geolocation not supported by your browser.');
+      }
+    });
+
+    // Initialize Default Weather on Load
+    loadWeather(activeLat, activeLon, activeCityName);
+  </script>
+</body>
 </html>
