@@ -1,49 +1,52 @@
-# SkyCast • Real-Time Weather Intelligence 🌤️
+<div align="center">
 
-[![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/)
-[![Vite](https://img.shields.io/badge/Vite-4-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![Redux Toolkit](https://img.shields.io/badge/Redux%20Toolkit-RTK-764ABC?style=flat-square&logo=redux&logoColor=white)](https://redux.js.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
-[![Author](https://img.shields.io/badge/Author-Umar%20Mukthar-indigo?style=flat-square)](https://github.com/UMARMUKTHAR03)
+# 🌤️ SkyCast — Real-Time Weather Intelligence
 
-SkyCast is a modern, responsive real-time weather analytics application built with **React**, **Vite**, **Redux Toolkit**, and **Tailwind CSS**. It provides comprehensive meteorological data, hourly trends, interactive precipitation charts, UV radar indices, and location-based forecasting.
+**Designed & Built by [UMAR MUKTHAR](https://github.com/UMARMUKTHAR03)**
 
-Developed and maintained by **[UMAR MUKTHAR](https://github.com/UMARMUKTHAR03)**.
+[![Live Website Demo](https://img.shields.io/badge/🚀%20Live%20Website-Click%20Here%20To%20View-6366f1?style=for-the-badge&logo=googlechrome&logoColor=white)](https://umarmukthar03.github.io/weather-forecast-app/dist/)
+[![GitHub Profile](https://img.shields.io/badge/Creator-UMAR%20MUKTHAR-10b981?style=for-the-badge&logo=github&logoColor=white)](https://github.com/UMARMUKTHAR03)
+[![License: MIT](https://img.shields.io/badge/License-MIT-38bdf8?style=for-the-badge)](LICENSE)
 
----
+<br/>
 
-## 🌟 Key Features
+<!-- Interactive High-Res Interface Preview directly inside GitHub Repo -->
+<img src="./docs/preview.svg" alt="SkyCast Interface Preview by Umar Mukthar" width="100%" />
 
-- **Real-Time Atmospheric Conditions:** Instant metrics for temperature, feels-like index, atmospheric pressure, wind direction/speed, and humidity.
-- **Interactive Multi-Day Forecast:** Dynamic 10-day weather projection with detailed condition summaries and high/low ranges.
-- **Hourly Weather Radar:** Real-time temperature and climate trend timeline for the next 24 hours.
-- **Air Quality & Pollution Analysis:** Live AQI index tracking PM2.5, PM10, CO, NO2, and Ozone levels.
-- **Precipitation & Rain Probabilities:** Interactive Chart.js visualizations tracking rainfall likelihood.
-- **Geographic Exploration & Interactive Maps:** Integrated Leaflet map visualization for weather systems.
-- **City Search & Autocomplete:** Global search powered by Google Places API / Open-Meteo geocoding.
-- **Adaptive Dark / Light Interface:** System-aware theme toggle with glassmorphism design.
+</div>
 
 ---
 
-## 🛠️ Tech Stack & Architecture
+## 🌟 Live Demo & Web App
 
-- **Core:** React 18, Vite
-- **State Management:** Redux Toolkit (RTK Query for asynchronous API caching & synchronization)
-- **Styling:** Tailwind CSS, PostCSS, Custom Design System
-- **Icons & UI:** Heroicons, React Icons, Headless UI
-- **Data Visualization:** Chart.js, Leaflet Maps
-- **APIs:** OpenWeather API, Open-Meteo, Google Places
+- 🌐 **Live Website Link:** [https://umarmukthar03.github.io/weather-forecast-app/dist/](https://umarmukthar03.github.io/weather-forecast-app/dist/)
+- 👨‍💻 **Creator / Maintainer:** [Umar Mukthar (@UMARMUKTHAR03)](https://github.com/UMARMUKTHAR03)
+- 📦 **Repository:** [UMARMUKTHAR03/weather-forecast-app](https://github.com/UMARMUKTHAR03/weather-forecast-app)
 
 ---
 
-## 🚀 Quick Start Guide
+## 🚀 Key Highlights & Architectural Features
 
-### Prerequisites
-- [Node.js](https://nodejs.org/) (version 16 or newer recommended)
-- `npm` or `yarn`
+- **Atmospheric Metric Intelligence:** High-precision telemetry for temperature, feels-like humidity, barometric pressure, wind trajectory, sunrise & sunset tracking.
+- **Hourly Forecast Curves:** 24-hour predictive trend analysis with localized timezone conversion.
+- **Air Quality & Pollution Monitoring (AQI):** Detailed particulate tracking including PM2.5, PM10, CO, NO2, and Ozone concentration.
+- **Precipitation Probability & UV Index:** Visual chance-of-rain forecasts with UV radiation safety levels.
+- **Global Search & Geocoding:** Auto-completion across worldwide municipalities.
+- **Adaptive Ambient Theme Engine:** Frosted glass cards, glowing dark-mode aesthetics, and smooth responsive layout.
 
-### Installation
+---
+
+## 🛠️ Technology Stack
+
+- **Frontend:** React 18, Vite, JavaScript (ESNext)
+- **State Architecture:** Redux Toolkit (RTK Query for asynchronous caching)
+- **Design System:** Tailwind CSS, Heroicons, React Icons, Headless UI
+- **Visuals & Maps:** Chart.js, Leaflet Interactive Maps
+- **Data Providers:** OpenWeather API, Open-Meteo, Google Places API
+
+---
+
+## 💻 Local Installation & Setup
 
 1. **Clone the repository:**
    ```bash
@@ -51,37 +54,38 @@ Developed and maintained by **[UMAR MUKTHAR](https://github.com/UMARMUKTHAR03)**
    cd weather-forecast-app
    ```
 
-2. **Install dependencies:**
+2. **Install project dependencies:**
    ```bash
    npm install
    ```
 
-3. **Configure Environment Variables:**
+3. **Configure Environment Keys:**
    Create a `.env` file in the root directory:
    ```env
-   VITE_API_KEY_OPENWEATHERMAP=your_openweather_api_key
+   VITE_API_KEY_OPENWEATHERMAP=your_api_key_here
    ```
 
-4. **Start the Development Server:**
+4. **Run the local development server:**
    ```bash
    npm run dev
    ```
 
-5. **Build for Production:**
+5. **Build optimized production bundle:**
    ```bash
    npm run build
    ```
 
 ---
 
-## 👨‍💻 Author
+## 👤 Author & Attribution
 
 **UMAR MUKTHAR**
-- GitHub: [@UMARMUKTHAR03](https://github.com/UMARMUKTHAR03)
-- Role: Aspiring AI Engineer | Machine Learning Engineer | Full-Stack Developer
+- **GitHub:** [@UMARMUKTHAR03](https://github.com/UMARMUKTHAR03)
+- **Profile:** [https://github.com/UMARMUKTHAR03](https://github.com/UMARMUKTHAR03)
+- **Specialization:** AI Engineering | Machine Learning | Full-Stack Development
 
 ---
 
 ## 📄 License
 
-This project is licensed under the [MIT License](LICENSE) - see the LICENSE file for details.
+This repository is licensed under the [MIT License](LICENSE) &copy; 2026 **UMAR MUKTHAR**.
